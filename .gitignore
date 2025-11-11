@@ -1,8 +1,12 @@
-# Byte-code / caches
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# C extensions
 *.so
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -16,54 +20,62 @@ parts/
 sdist/
 var/
 wheels/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Unit test / coverage
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# mypy / ruff
-.mypy_cache/
-.dmypy.json
-dmypy.json
-.ruff_cache/
-
-# Environments
-.env
-.venv
-env/
+# Virtual environments
 venv/
 ENV/
-env.bak/
-venv.bak/
+env/
+.venv
 
 # IDEs
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
 *~
-.DS_Store
 
-# Project runtime
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Linting
+.ruff_cache/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Data files (exclude from git, keep structure)
 app/data/*.json
+app/data/*.backup
 !app/data/pages.json.example
-!app/data/audit_log.json.example
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*.tmp
 
 # Docker
-.dockerignore
+docker-compose.override.yml

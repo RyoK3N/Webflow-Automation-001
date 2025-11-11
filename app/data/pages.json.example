@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "/",
+    "title": "Home | SEO Automation Platform",
+    "meta_description": "Manage your Webflow meta tags efficiently with our enterprise-grade bulk updater.",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  {
+    "slug": "/about",
+    "title": "About Us | SEO Automation Platform",
+    "meta_description": "Learn more about our SEO automation platform and how we help businesses improve their search rankings.",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  {
+    "slug": "/blog/seo-tips",
+    "title": "SEO Tips for 2025 | Expert Strategies",
+    "meta_description": "Discover the latest SEO strategies and tips to improve your website's search engine rankings in 2025.",
+    "updated_at": "2025-01-01T00:00:00"
+  }
+]
