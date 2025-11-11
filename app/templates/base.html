@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token|default('') }}">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <style>
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97); }
+        @keyframes shake {
+            25%, 75% { transform: translateX(4px); }
+            50% { transform: translateX(-4px); }
+        }
+        .fade-in { opacity: 0; animation: fadeIn 0.5s ease-in forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .toast-enter { transform: translateX(400px); opacity: 0; }
+        .toast-leave { transform: translateX(400px); opacity: 0; transition: all 0.3s ease-out; }
+    </style>
+</head>
+<body class="h-full" hx-ext="csrf">
+    {% block content %}{% endblock %}
+    
+    <script>
+        // Global error handler
+        document.body.addEventListener('htmx:responseError', (e) => {
+            const status = e.detail.xhr.status;
+            let message = 'An error occurred';
+            
+            if (status === 401) {
+                window.location.href = '/login';
+            } else if (status === 429) {
+                message = 'Too many requests. Please wait.';
+            } else if (status >= 400) {
+                message = e.detail.xhr.responseText || 'Server error';
+            }
+            
+            if (status !== 401) {
+                showToast(message, 'error');
+            }
+        });
+        
+        // Toast notification system
+        function showToast(message, type = 'info', duration = 5000) {
+            const toast = document.createElement('div');
+            const colors = {
+                success: 'bg-emerald-500',
+                error: 'bg-red-500',
+                warning: 'bg-yellow-500',
+                info: 'bg-blue-500'
+            };
+            
+            toast.className = `fixed bottom-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 toast-enter`;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            // Animate in
+            gsap.to(toast, {
+                x: 0,
+                opacity: 1,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            
+            // Auto remove
+            setTimeout(() => {
+                gsap.to(toast, {
+                    x: 400,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.in",
+                    onComplete: () => toast.remove()
+                });
+            }, duration);
+        }
+        
+        // Set CSRF token for all requests
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        if (csrfToken) {
+            document.addEventListener('htmx:configRequest', (e) => {
+                e.detail.headers['X-CSRF-Token'] = csrfToken;
+            });
+        }
+    </script>
+</body>
+</html>

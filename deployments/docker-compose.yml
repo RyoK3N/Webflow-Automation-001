@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  seo-automation:
+    build:
+      context: ../
+      dockerfile: deployments/Dockerfile
+    container_name: seo-automation
+    environment:
+      - LOG_LEVEL=INFO
+      - SECRET_KEY=prod-secret-key-change-this
+      - ADMIN_PASSWORD=Seo_cleverly@2025
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../app/data:/app/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
